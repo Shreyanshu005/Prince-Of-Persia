@@ -31,7 +31,7 @@ class Player {
     this.width = 78;
     this.height = 90;
     this.frames = 0;
-    this.frameInterval = 4;
+    this.frameInterval = 5;
     this.frameCount = 0;
     this.isJumping = false;
     this.direction = 'right';
