@@ -1,11 +1,20 @@
 const canvas = document.querySelector('canvas');
 const idleR=new Image();
 idleR.src='../assets/Idle.png';
+const runR=new Image();
+runR.src='../assets/RunR.png';
+const idleL=new Image();
+idleL.src='../assets/IdleL.png';
+const runL=new Image();
+runL.src='../assets/RunL.png';
 
 
 const c = canvas.getContext('2d');
 canvas.width = innerWidth;
 canvas.height = innerHeight;
+
+
+const gravity =1 ;
 
 class Player {
     constructor() {
@@ -14,23 +23,50 @@ class Player {
       this.width = 78;
       this.height = 90;
       this.image=createImg(idleR);
-      this.frames=0;
- 
+      this.frames = 0;
+        this.frameInterval = 5;
+        this.frameCount = 0;
+        this.sprites={
+          stand:{
+            right:createImg(idleR),
+            cropWidth:39,
+            frameC:9,
+
+            left:createImg(idleL),
+
+
+          },
+          run:{
+            right:createImg(runR),
+            cropWidth:54,
+            frameC:6,
+
+            left:createImg(runL),
+          }
+        }
+       this.currentSprite=this.sprites.stand.right;
+       this.currentCropWidth=this.sprites.stand.cropWidth;
+       this.currentframeC=this.sprites.stand.frameC;
     }
 
     draw(){
       const frameX =162 * this.frames;
       c.drawImage(
-        this.image,
-        frameX, 0, 39, 45,
+        this.currentSprite,
+        frameX, 0, this.currentCropWidth, 45,
         this.position.x, this.position.y,
         this.width, this.height);
     }
     update() {
-      this.frames++;
-      if(this.frames>9){
-        this.frames=0}
-      this.draw();}
+      this.frameCount++;
+      if (this.frameCount % this.frameInterval === 0) {
+          this.frames++;
+          if (this.frames > this.currentframeC) {
+              this.frames = 0;
+          }
+      }
+      this.draw();
+  }
 }
 function createImg(imageSrc){
   const image = new Image();
@@ -53,3 +89,35 @@ function animate() {
  
 }
 animate();
+
+window.addEventListener('keydown', (event) => {
+  if (event.key === 'd') {
+   player1.currentSprite=player1.sprites.run.right;
+   player1.currentCropWidth=player1.sprites.run.cropWidth;
+   player1.currentframeC=player1.sprites.run.frameC;
+  }
+});
+
+window.addEventListener('keyup', (event) => {
+  if (event.key === 'd') {
+   player1.currentSprite=player1.sprites.stand.right;
+   player1.currentCropWidth=player1.sprites.stand.cropWidth;
+   player1.currentframeC=player1.sprites.stand.frameC;
+  }
+});
+
+window.addEventListener('keydown', (event) => {
+  if (event.key === 'a') {
+   player1.currentSprite=player1.sprites.run.left;
+   player1.currentCropWidth=player1.sprites.run.cropWidth;
+   player1.currentframeC=player1.sprites.run.frameC;
+  }
+});
+
+window.addEventListener('keyup', (event) => {
+  if (event.key === 'a') {
+   player1.currentSprite=player1.sprites.stand.left;
+   player1.currentCropWidth=player1.sprites.stand.cropWidth;
+   player1.currentframeC=player1.sprites.stand.frameC;
+  }
+});
