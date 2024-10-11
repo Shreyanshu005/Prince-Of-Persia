@@ -33,6 +33,15 @@ class Player {
       this.frames++;
       if(this.frames>9){
         this.frames=0}
+
+        this.position.x += this.velocity.x;
+        this.position.y += this.velocity.y;
+
+        if (this.position.y + this.height + this.velocity.y <= canvas.height) {
+            this.velocity.y += gravity;}
+            else {
+                this.velocity.y = 0;}
+
       this.draw();}
 }
 function createImg(imageSrc){
@@ -56,3 +65,46 @@ function animate() {
  
 }
 animate();
+
+function keydown(e){
+ switch(e.keyCode){
+
+    case 65:  
+    player1.velocity.x =-5;                                 // left(a)
+        break ;
+
+    case 83 :                                          // down (s)
+        break;
+
+    case 68 :  
+    player1.velocity.x =5 ;                                        // right(d)
+        break;
+
+    case 87 :        
+        player1.velocity.y -=20 ;                                 // up(w)
+        break ;
+ }
+}
+
+function keyup(e){
+    switch(e.keyCode){
+   
+       case 65:  
+       player1.velocity.x =0;                                 // left(a)
+           break ;
+   
+       case 83 :                                          // down (s)
+           break;
+   
+       case 68 :  
+       player1.velocity.x =0 ;                                        // right(d)
+           break;
+   
+       case 87 :        
+           player1.velocity.y =-20 ;                                 // up(w)
+           break ;
+    }
+   }
+
+addEventListener('keydown', keydown)
+addEventListener('keyup',keyup)
