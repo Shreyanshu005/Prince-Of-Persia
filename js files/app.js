@@ -36,6 +36,9 @@ class Player {
     this.isJumping = false;
     this.direction = 'right';
     this.isAttacking = false;
+    this.attackFrames = 0;
+    this.attackDuration = 50; 
+    
 
 
     this.sprites = {
@@ -112,12 +115,18 @@ class Player {
 
     } 
     else if (this.isAttacking) {
+      console.log(this.attackFrames);
+      this.attackFrames++;
+      if (this.attackFrames > this.attackDuration) {
+        this.isAttacking = false; 
+        this.attackFrames = 0; 
+      }
       this.currentSprite = this.direction === 'left' ? this.sprites.attack.left : this.sprites.attack.right; 
            this.currentCropHeight = 101;
       this.currentCropWidth = this.sprites.attack.cropWidth;
-
-      this.width = 133;
-      this.height = 101;
+this.position.y = innerHeight-200;
+      this.width = 266;
+      this.height = 202;
     } 
 
     else if (this.velocity.x !== 0) {
@@ -125,11 +134,18 @@ class Player {
       this.currentSprite = this.direction === 'left' ? this.sprites.run.left : this.sprites.run.right;
       this.currentCropWidth = this.sprites.run.cropWidth;
       this.currentframeCount = this.sprites.run.frameCount;
+      this.currentCropHeight = this.sprites.stand.cropHeight;
+      
+      this.width = 78;
+      this.height = 90;
     } else {
       this.currentSprite = this.direction === 'left' ? this.sprites.stand.left : this.sprites.stand.right;
       this.currentCropWidth = this.sprites.stand.cropWidth;
+      this.currentCropHeight = this.sprites.stand.cropHeight;
 
       this.currentframeCount = this.sprites.stand.frameCount;
+      this.width = 78;
+      this.height = 90;
 
     }
 
@@ -194,7 +210,7 @@ function keyup(e) {
       break;
 
     case 81:
-      player1.isAttacking = false;
+    
 
 
       break;
