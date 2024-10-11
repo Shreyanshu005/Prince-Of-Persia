@@ -113,21 +113,21 @@ function keydown(e){
     player1.velocity.x =-5;                  
     player1.currentSprite=player1.sprites.run.left;
     player1.currentCropWidth=player1.sprites.run.cropWidth;
-    player1.currentframeC=player1.sprites.run.frameC;               // left(a)
+    player1.currentframeC=player1.sprites.run.frameC;               
         break ;
 
-    case 83 :                                          // down (s)
+    case 83 :                                        
         break;
 
     case 68 :  
     player1.velocity.x =5 ;           
     player1.currentSprite=player1.sprites.run.right;
    player1.currentCropWidth=player1.sprites.run.cropWidth;
-   player1.currentframeC=player1.sprites.run.frameC;                             // right(d)
+   player1.currentframeC=player1.sprites.run.frameC;                         
         break;
 
     case 87 :        
-        player1.velocity.y -=20 ;                                 // up(w)
+        player1.velocity.y -=20 ;                                 
         break ;
  }
 }
@@ -139,21 +139,20 @@ function keyup(e){
        player1.velocity.x =0; 
        player1.currentSprite=player1.sprites.stand.left;
        player1.currentCropWidth=player1.sprites.stand.cropWidth;
-       player1.currentframeC=player1.sprites.stand.frameC;                                // left(a)
-           break ;
+       player1.currentframeC=player1.sprites.stand.frameC;                           
    
-       case 83 :                                          // down (s)
+       case 83 :                                         
            break;
    
        case 68 :  
        player1.velocity.x =0 ;        
        player1.currentSprite=player1.sprites.stand.right;
        player1.currentCropWidth=player1.sprites.stand.cropWidth;
-       player1.currentframeC=player1.sprites.stand.frameC;                                // right(d)
+       player1.currentframeC=player1.sprites.stand.frameC;
            break;
    
        case 87 :        
-           player1.velocity.y =-20 ;                                 // up(w)
+           player1.velocity.y =-20 ;                                
            break ;
     }
    }
