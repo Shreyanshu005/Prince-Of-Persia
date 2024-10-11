@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prince Of Persia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="assets/favicon.png" type="image/x-icon">
+    <style>
+        body {
+
+            font-family: "Press Start 2P", system-ui;
+            font-weight: 400;
+            font-style: normal;
+
+
+            background-color: black;
+            margin: 0;
+
+        }
+
+        #background {
+
+            background-color: black;
+            display: flex;
+
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 2s;
+        }
+
+        img {
+            z-index: -1;
+            position: fixed;
+            height: 100vh;
+        }
+
+        p {
+            width: fit-content;
+            opacity: 0;
+            color: white;
+            font-size: 40px;
+            cursor: default;
+        }
+
+        .text {
+
+            text-align: center;
+
+            width: 20vw;
+            margin-top: 55vh;
+            margin-left: 36vw;
+
+            z-index: 5;
+        }
+
+        a {
+            opacity: 0;
+            position: relative;
+            text-wrap: nowrap;
+            bottom: 150px;
+            left: 40px;
+            z-index: 6;
+            pointer-events: none;
+        }
+
+        button {
+            font-family: "Press Start 2P", system-ui;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 30px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+
+            transition: opacity 2s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <audio id="background-music" src="../assets/back.mp3" loop></audio>
+
+    <div id="background">
+        <img src="../assets/FePLNBnWAAMRbur.jpeg" alt="">
+    </div>
+    <div class="text">
+        <p id="changing-text">Presented by Abhishek and Shreyanshu</p>
+
+        <a href="./game.html" id="start-button">
+            <button>Let's Go</button>
+        </a>
+    </div>
+    <script>
+        window.addEventListener('load', () => {
+            const background = document.getElementById('background');
+            const backgroundMusic = document.getElementById('background-music');
+            const changingText = document.getElementById('changing-text');
+            const startButton = document.getElementById('start-button');
+
+            background.style.opacity = 1;
+
+            background.addEventListener('transitionend', () => {
+                if (window.getComputedStyle(background).opacity == 1) {
+                    backgroundMusic.play();
+                    fadeInText();
+                }
+            });
+
+
+            function fadeInText() {
+                changingText.style.opacity = 0;
+                changingText.style.transition = 'opacity 2s';
+                setTimeout(() => {
+                    changingText.style.opacity = 1;
+                    setTimeout(fadeOutText, 2000);
+
+                }, 0);
+            }
+
+            function fadeOutText() {
+                changingText.style.opacity = 0;
+
+                setTimeout(() => {
+                    fadeInButton();
+                }, 2000);
+            }
+            function fadeInButton() {
+                startButton.style.opacity = 1;
+                startButton.style.pointerEvents = 'auto';
+            }
+
+        });
+    </script>
+</body>
+
+</html>
