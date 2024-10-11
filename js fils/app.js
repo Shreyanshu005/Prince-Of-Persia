@@ -160,34 +160,3 @@ function keyup(e){
 
 addEventListener('keydown', keydown)
 addEventListener('keyup',keyup)
-// window.addEventListener('keydown', (event) => {
-//   if (event.key === 'd') {
-//    player1.currentSprite=player1.sprites.run.right;
-//    player1.currentCropWidth=player1.sprites.run.cropWidth;
-//    player1.currentframeC=player1.sprites.run.frameC;
-//   }
-// });
-
-// window.addEventListener('keyup', (event) => {
-//   if (event.key === 'd') {
-//    player1.currentSprite=player1.sprites.stand.right;
-//    player1.currentCropWidth=player1.sprites.stand.cropWidth;
-//    player1.currentframeC=player1.sprites.stand.frameC;
-//   }
-// });
-
-// window.addEventListener('keydown', (event) => {
-//   if (event.key === 'a') {
-//    player1.currentSprite=player1.sprites.run.left;
-//    player1.currentCropWidth=player1.sprites.run.cropWidth;
-//    player1.currentframeC=player1.sprites.run.frameC;
-//   }
-// });
-
-// window.addEventListener('keyup', (event) => {
-//   if (event.key === 'a') {
-//    player1.currentSprite=player1.sprites.stand.left;
-//    player1.currentCropWidth=player1.sprites.stand.cropWidth;
-//    player1.currentframeC=player1.sprites.stand.frameC;
-//   }
-// });
