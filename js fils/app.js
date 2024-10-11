@@ -7,6 +7,8 @@ const idleL=new Image();
 idleL.src='../assets/IdleL.png';
 const runL=new Image();
 runL.src='../assets/RunL.png';
+const jump=new Image();
+jump.src='../assets/jump.png';
 
 
 const c = canvas.getContext('2d');
@@ -24,8 +26,9 @@ class Player {
       this.height = 90;
       this.image=createImg(idleR);
       this.frames = 0;
-        this.frameInterval = 5;
+        this.frameInterval = 4;
         this.frameCount = 0;
+        
         this.sprites={
           stand:{
             right:createImg(idleR),
@@ -42,6 +45,10 @@ class Player {
             frameC:6,
 
             left:createImg(runL),
+          },
+          jump:{
+            right:createImg(jump),
+            frameC:3,
           }
         }
        this.currentSprite=this.sprites.stand.right;
@@ -58,6 +65,13 @@ class Player {
         this.width, this.height);
     }
     update() {
+    
+    
+
+        
+
+    
+    
       this.frameCount++;
       if (this.frameCount % this.frameInterval === 0) {
           this.frames++;
@@ -65,6 +79,20 @@ class Player {
               this.frames = 0;
           }
       }
+      
+
+      this.position.x += this.velocity.x;
+        this.position.y += this.velocity.y;
+
+        if (this.position.y + this.height + this.velocity.y <= canvas.height) {
+            this.velocity.y += gravity;}
+            else {
+                this.velocity.y = 0;}
+
+                
+
+
+                
       this.draw();
   }
 }
@@ -90,34 +118,64 @@ function animate() {
 }
 animate();
 
-window.addEventListener('keydown', (event) => {
-  if (event.key === 'd') {
-   player1.currentSprite=player1.sprites.run.right;
+function keydown(e){
+ switch(e.keyCode){
+
+    case 65:  
+    player1.velocity.x =-5;                  
+    player1.currentSprite=player1.sprites.run.left;
+    player1.currentCropWidth=player1.sprites.run.cropWidth;
+    player1.currentframeC=player1.sprites.run.frameC;              
+        break ;
+
+    case 83 :                                          
+        break;
+
+    case 68 :  
+    player1.velocity.x =5 ;           
+    player1.currentSprite=player1.sprites.run.right;
    player1.currentCropWidth=player1.sprites.run.cropWidth;
-   player1.currentframeC=player1.sprites.run.frameC;
-  }
-});
+   player1.currentframeC=player1.sprites.run.frameC;                           
+        break;
 
-window.addEventListener('keyup', (event) => {
-  if (event.key === 'd') {
-   player1.currentSprite=player1.sprites.stand.right;
-   player1.currentCropWidth=player1.sprites.stand.cropWidth;
-   player1.currentframeC=player1.sprites.stand.frameC;
-  }
-});
+    case 87 :        
+        player1.velocity.y -=20 ;     
+        player1.currentSprite=player1.sprites.jump.right;
+        player1.currentframeC=player1.sprites.jump.frameC-1;
+        
+                          
+        break ;
+ }
+}
 
-window.addEventListener('keydown', (event) => {
-  if (event.key === 'a') {
-   player1.currentSprite=player1.sprites.run.left;
-   player1.currentCropWidth=player1.sprites.run.cropWidth;
-   player1.currentframeC=player1.sprites.run.frameC;
-  }
-});
+function keyup(e){
+    switch(e.keyCode){
+   
+       case 65:  
+       player1.velocity.x =0; 
+       player1.currentSprite=player1.sprites.stand.left;
+       player1.currentCropWidth=player1.sprites.stand.cropWidth;
+       player1.currentframeC=player1.sprites.stand.frameC;                               
+           break ;
+   
+       case 83 :                                   
+           break;
+   
+       case 68 :  
+       player1.velocity.x =0 ;        
+       player1.currentSprite=player1.sprites.stand.right;
+       player1.currentCropWidth=player1.sprites.stand.cropWidth;
+       player1.currentframeC=player1.sprites.stand.frameC;                               
+           break;
+   
+       case 87 :        
+           player1.velocity.y =-20 ;   
+            
+       
+                
+           break ;
+    }
+   }
 
-window.addEventListener('keyup', (event) => {
-  if (event.key === 'a') {
-   player1.currentSprite=player1.sprites.stand.left;
-   player1.currentCropWidth=player1.sprites.stand.cropWidth;
-   player1.currentframeC=player1.sprites.stand.frameC;
-  }
-});
+addEventListener('keydown', keydown)
+addEventListener('keyup',keyup)
