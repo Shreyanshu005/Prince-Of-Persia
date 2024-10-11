@@ -7,6 +7,9 @@ const c = canvas.getContext('2d');
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 
+
+const gravity =1 ;
+
 class Player {
     constructor() {
       this.position = { x: 100, y: 100 }
