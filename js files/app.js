@@ -12,7 +12,9 @@ jumpR.src = '../assets/jump.png';
 const jumpL = new Image();
 jumpL.src = '../assets/jumpL.png';
 const attack1R = new Image();
-attack1R.src = '../assets/Attack4.png'
+attack1R.src = '../assets/Attack3L.png'
+const attack1L = new Image();
+attack1L.src = '../assets/Attack4.png'
 const footstep = new Audio();
 footstep.src = '../assets/footstep.wav';
 
@@ -61,6 +63,8 @@ class Player {
         right: createImg(attack1R),
         cropWidth: 162,
         frameCount: 6,
+
+        left: createImg(attack1L),
       }
     };
 
@@ -106,45 +110,34 @@ class Player {
       this.currentframeCount = this.sprites.jump.frameCount;
       
 
-    } else if (this.velocity.x !== 0) {
-      this.direction = this.velocity.x < 0 ? 'left' : 'right';
-      this.currentSprite = this.direction === 'left' ? this.sprites.run.left : this.sprites.run.right;
-      this.currentCropWidth = this.sprites.run.cropWidth;
-      this.currentframeCount = this.sprites.run.frameCount;
-    } else {
-      this.currentSprite = this.direction === 'left' ? this.sprites.stand.left : this.sprites.stand.right;
-      this.currentCropWidth = this.sprites.stand.cropWidth;
-
-      this.currentframeCount = this.sprites.stand.frameCount;
-
-    }
-
-
-
-    if (this.isAttacking) {
-      this.currentSprite = this.sprites.attack.right;
-      this.currentCropHeight = 101;
+    } 
+    else if (this.isAttacking) {
+      this.currentSprite = this.direction === 'left' ? this.sprites.attack.left : this.sprites.attack.right; 
+           this.currentCropHeight = 101;
       this.currentCropWidth = this.sprites.attack.cropWidth;
 
       this.width = 133;
       this.height = 101;
-    } else if (this.velocity.x !== 0) {
+    } 
+
+    else if (this.velocity.x !== 0) {
       this.direction = this.velocity.x < 0 ? 'left' : 'right';
       this.currentSprite = this.direction === 'left' ? this.sprites.run.left : this.sprites.run.right;
       this.currentCropWidth = this.sprites.run.cropWidth;
-
-
       this.currentframeCount = this.sprites.run.frameCount;
     } else {
       this.currentSprite = this.direction === 'left' ? this.sprites.stand.left : this.sprites.stand.right;
       this.currentCropWidth = this.sprites.stand.cropWidth;
 
-
-
-
       this.currentframeCount = this.sprites.stand.frameCount;
 
     }
+
+
+
+    
+    
+
 
     this.draw();
   }
@@ -197,7 +190,7 @@ function keyup(e) {
       player1.velocity.x = 0;
       break;
     case 87:
-      // player1.isJumping = false;
+     
       break;
 
     case 81:
