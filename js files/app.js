@@ -158,4 +158,6 @@ function keyup(e){
    }
 
 addEventListener('keydown', keydown)
-addEventListener('keyup',keyup)
+addEventListener('keyup',keyup) 
+
+
