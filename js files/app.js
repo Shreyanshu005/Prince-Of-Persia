@@ -41,33 +41,33 @@ class Player {
         right: createImg(idleR),
         cropWidth: 39,
         cropHeight: 45,
-        frameC: 9,
+        frameCount: 9,
         left: createImg(idleL),
       },
       run: {
         right: createImg(runR),
         cropWidth: 54,
-        frameC: 6,
+        frameCount: 6,
         left: createImg(runL),
       },
       jump: {
         right: createImg(jumpR),
         cropWidth: 54,
 
-        frameC: 1,
+        frameCount: 1,
         left: createImg(jumpL),
       },
       attack: {
         right: createImg(attack1R),
         cropWidth: 162,
-        frameC: 6,
+        frameCount: 6,
       }
     };
 
     this.currentSprite = this.sprites.stand.right;
     this.currentCropHeight = this.sprites.stand.cropHeight;
     this.currentCropWidth = this.sprites.stand.cropWidth;
-    this.currentframeC = this.sprites.stand.frameC;
+    this.currentframeCount = this.sprites.stand.frameCount;
   }
 
   draw() {
@@ -84,7 +84,7 @@ class Player {
     this.frameCount++;
     if (this.frameCount % this.frameInterval === 0) {
       this.frames++;
-      if (this.frames > this.currentframeC) {
+      if (this.frames > this.currentframeCount) {
         this.frames = 0;
       }
     }
@@ -103,17 +103,19 @@ class Player {
     if (this.isJumping) {
       this.currentSprite = this.direction === 'left' ? this.sprites.jump.left : this.sprites.jump.right;
       this.currentCropWidth = this.sprites.jump.cropWidth;
-      this.currentframeC = this.sprites.jump.frameC;
+      this.currentframeCount = this.sprites.jump.frameCount;
+      
+
     } else if (this.velocity.x !== 0) {
       this.direction = this.velocity.x < 0 ? 'left' : 'right';
       this.currentSprite = this.direction === 'left' ? this.sprites.run.left : this.sprites.run.right;
       this.currentCropWidth = this.sprites.run.cropWidth;
-      this.currentframeC = this.sprites.run.frameC;
+      this.currentframeCount = this.sprites.run.frameCount;
     } else {
       this.currentSprite = this.direction === 'left' ? this.sprites.stand.left : this.sprites.stand.right;
       this.currentCropWidth = this.sprites.stand.cropWidth;
 
-      this.currentframeC = this.sprites.stand.frameC;
+      this.currentframeCount = this.sprites.stand.frameCount;
 
     }
 
@@ -132,7 +134,7 @@ class Player {
       this.currentCropWidth = this.sprites.run.cropWidth;
 
 
-      this.currentframeC = this.sprites.run.frameC;
+      this.currentframeCount = this.sprites.run.frameCount;
     } else {
       this.currentSprite = this.direction === 'left' ? this.sprites.stand.left : this.sprites.stand.right;
       this.currentCropWidth = this.sprites.stand.cropWidth;
@@ -140,7 +142,7 @@ class Player {
 
 
 
-      this.currentframeC = this.sprites.stand.frameC;
+      this.currentframeCount = this.sprites.stand.frameCount;
 
     }
 
@@ -195,7 +197,7 @@ function keyup(e) {
       player1.velocity.x = 0;
       break;
     case 87:
-
+      // player1.isJumping = false;
       break;
 
     case 81:
