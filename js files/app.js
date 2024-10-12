@@ -65,7 +65,7 @@ class Player {
     this.direction = 'right';
     this.isAttacking = false;
     this.attackFrames = 0;
-    this.attackDuration = 50; 
+    this.attackDuration = 20; 
     this.isDead=false;
     
 
@@ -162,8 +162,8 @@ class Player {
     } 
     else if(this.isFalling){
       this.currentSprite = this.direction === 'left' ? this.sprites.fall.left : this.sprites.fall.right;
-      this.width=156;
-      this.height=180;
+      this.width=202.8;
+      this.height=234;
       this.currentframeCount=2;
 this.currentCropHeight=this.sprites.fall.cropHeight;
     }
@@ -269,7 +269,7 @@ function keydown(e) {
     case 87:
       if(player1.velocity.y===0)
       if (!player1.isJumping) {
-        player1.velocity.y -= 20;
+        player1.velocity.y -= 25;
         player1.isJumping = true;
       }
       break;
