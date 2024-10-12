@@ -23,12 +23,29 @@ const fall=new Image();
 fall.src='../assets/fall.png'
 const fallL=new Image();
 fallL.src='../assets/fallL.png'
+const backG=new Image();
+backG.src='../assets/background.png'
 
 const c = canvas.getContext('2d');
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 
 const gravity = 1;
+
+class sprite1{
+  constructor({position,imageSrc}){
+    this.position=position;
+    this.image=new Image();
+    this.image.src=imageSrc;
+  }
+  draw(){
+    if(!this.image) return
+    c.drawImage(this.image,this.position.x,this.position.y);
+  }
+  update(){
+    this.draw()
+  }
+}
 
 class Player {
   constructor() {
@@ -202,15 +219,31 @@ function createImg(imageSrc) {
   image.src = imageSrc.src;
   return image;
 }
+const background=new sprite1({
+  position:{
+    x:0,
+    y:0
+  },
+  
+  imageSrc:backG.src}
+);
 
 let player1 = new Player();
 
 function animate() {
+
   requestAnimationFrame(animate);
   c.clearRect(0, 0, canvas.width, canvas.height);
+  c.save();
+  c.scale(4,4);
+  background.update();
+  c.restore();
   player1.update();
 }
-animate();
+backG.onload = () => {
+  
+  animate();
+};
 
 function keydown(e) {
   switch (e.keyCode) {
@@ -225,6 +258,7 @@ function keydown(e) {
 
       break;
     case 87:
+      if(player1.velocity.y===0)
       if (!player1.isJumping) {
         player1.velocity.y -= 20;
         player1.isJumping = true;
