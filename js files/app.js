@@ -17,6 +17,12 @@ const attack1L = new Image();
 attack1L.src = '../assets/Attack4.png'
 const footstep = new Audio();
 footstep.src = '../assets/footstep.wav';
+const death=new Image();
+death.src='../assets/death.png'
+const fall=new Image();
+fall.src='../assets/fall.png'
+const fallL=new Image();
+fallL.src='../assets/fallL.png'
 
 const c = canvas.getContext('2d');
 canvas.width = innerWidth;
@@ -34,10 +40,12 @@ class Player {
     this.frameInterval = 5;
     this.frameCount = 0;
     this.isJumping = false;
+    this.isFalling=false;
     this.direction = 'right';
     this.isAttacking = false;
     this.attackFrames = 0;
     this.attackDuration = 50; 
+    this.isDead=false;
     
 
 
@@ -68,6 +76,16 @@ class Player {
         frameCount: 6,
 
         left: createImg(attack1L),
+      },
+      death:{
+        right: createImg(death),
+       frameCount:6,
+       cropWidth:67,
+      },
+      fall:{
+        right:createImg(fall),
+        cropHeight:66,
+        left:createImg(fallL),
       }
     };
 
@@ -106,6 +124,13 @@ class Player {
       this.isJumping = false;
     }
 
+    if(this.velocity.y>0){
+      this.isJumping=false;
+      this.isFalling=true;
+    }else if(this.velocity.y===0){
+      this.isFalling=false;
+    }
+
 
     if (this.isJumping) {
       this.currentSprite = this.direction === 'left' ? this.sprites.jump.left : this.sprites.jump.right;
@@ -114,6 +139,12 @@ class Player {
       
 
     } 
+    else if(this.isFalling){
+      this.currentSprite = this.direction === 'left' ? this.sprites.fall.left : this.sprites.fall.right;
+      this.currentframeCount=2;
+this.currentCropHeight=this.sprites.fall.cropHeight;
+    }
+
     else if (this.isAttacking) {
       console.log(this.attackFrames);
       this.attackFrames++;
@@ -128,6 +159,13 @@ this.position.y = innerHeight-200;
       this.width = 266;
       this.height = 202;
     } 
+    else if(this.isDead){
+      this.currentSprite=this.sprites.death.right;
+      this.currentCropWidth=this.sprites.death.cropWidth;
+      this.width=127;
+      this.currentframeCount=this.sprites.death.frameCount;
+
+    }
 
     else if (this.velocity.x !== 0) {
       this.direction = this.velocity.x < 0 ? 'left' : 'right';
@@ -177,9 +215,11 @@ animate();
 function keydown(e) {
   switch (e.keyCode) {
     case 65:
+      if(!player1.isAttacking)
       player1.velocity.x = -5;
       break;
     case 68:
+      if(!player1.isAttacking)
       player1.velocity.x = 5;
 
 
@@ -191,8 +231,14 @@ function keydown(e) {
       }
       break;
     case 81:
+      if
+      (player1.velocity.x === 0)
       player1.isAttacking = true;
       break;
+
+      case 67:
+        player1.isDead=true;
+        break;
 
 
 
@@ -210,10 +256,13 @@ function keyup(e) {
       break;
 
     case 81:
-    
+      
 
 
       break;
+      case 67:
+        player1.isDead=false;
+        break;
   }
 }
 
