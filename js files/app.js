@@ -29,6 +29,10 @@ backG.src='../assets/background.png'
 const c = canvas.getContext('2d');
 canvas.width = innerWidth;
 canvas.height = innerHeight;
+const scaledCanvas={
+  width:canvas.width/3.5,
+  height:canvas.height/3.5
+}
 
 const gravity = 1;
 
@@ -158,6 +162,8 @@ class Player {
     } 
     else if(this.isFalling){
       this.currentSprite = this.direction === 'left' ? this.sprites.fall.left : this.sprites.fall.right;
+      this.width=156;
+      this.height=180;
       this.currentframeCount=2;
 this.currentCropHeight=this.sprites.fall.cropHeight;
     }
@@ -172,14 +178,14 @@ this.currentCropHeight=this.sprites.fall.cropHeight;
       this.currentSprite = this.direction === 'left' ? this.sprites.attack.left : this.sprites.attack.right; 
            this.currentCropHeight = 101;
       this.currentCropWidth = this.sprites.attack.cropWidth;
-this.position.y = innerHeight-200;
-      this.width = 266;
-      this.height = 202;
+this.position.y = innerHeight-400;
+      this.width = 532;
+      this.height = 404;
     } 
     else if(this.isDead){
       this.currentSprite=this.sprites.death.right;
       this.currentCropWidth=this.sprites.death.cropWidth;
-      this.width=127;
+      this.width=254;
       this.currentframeCount=this.sprites.death.frameCount;
 
     }
@@ -187,20 +193,21 @@ this.position.y = innerHeight-200;
     else if (this.velocity.x !== 0) {
       this.direction = this.velocity.x < 0 ? 'left' : 'right';
       this.currentSprite = this.direction === 'left' ? this.sprites.run.left : this.sprites.run.right;
+      this.position.y = innerHeight-150;
       this.currentCropWidth = this.sprites.run.cropWidth;
       this.currentframeCount = this.sprites.run.frameCount;
       this.currentCropHeight = this.sprites.stand.cropHeight;
       
-      this.width = 78;
-      this.height = 90;
+      this.width = 156;
+      this.height = 180;
     } else {
       this.currentSprite = this.direction === 'left' ? this.sprites.stand.left : this.sprites.stand.right;
       this.currentCropWidth = this.sprites.stand.cropWidth;
       this.currentCropHeight = this.sprites.stand.cropHeight;
-
+      this.position.y = innerHeight-178;
       this.currentframeCount = this.sprites.stand.frameCount;
-      this.width = 78;
-      this.height = 90;
+      this.width = 156;
+      this.height = 180;
 
     }
 
@@ -235,7 +242,9 @@ function animate() {
   requestAnimationFrame(animate);
   c.clearRect(0, 0, canvas.width, canvas.height);
   c.save();
-  c.scale(4,4);
+
+  c.scale(4.55,4.25);
+  c.translate(-1921,0);
   background.update();
   c.restore();
   player1.update();
