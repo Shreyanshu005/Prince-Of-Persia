@@ -62,6 +62,14 @@ class Player {
       this.currentCropHeight = this.sprites.stand.cropHeight;
       this.currentCropWidth = this.sprites.stand.cropWidth;
       this.currentframeCount = this.sprites.stand.frameCount;
+
+      this.cameraBox={
+        position:{
+          x:this.position.x,
+          y:this.position.y 
+        },width:200,height:80
+        
+      }
     }
   
     draw() {
@@ -73,9 +81,51 @@ class Player {
         this.width, this.height
       );
     }
+    updateCameraBox(){ 
+      this.cameraBox={
+        position:{
+          x:this.position.x-60,
+          y:this.position.y-30 
+        },width:140,height:80
+        
+      }
+     }
   
+      shouldPanLeft({canvas,camera}){
+        const cameraboxRigthSide=this.cameraBox.position.x+this.cameraBox.width;
+        const scaledCanvasWidth=canvas.width/1.29
+        if(cameraboxRigthSide>2880) returnd
+        if(cameraboxRigthSide>=scaledCanvasWidth){
+          camera.position.x-=this.velocity.x; 
+        }
+      }
+      shouldPanRight({canvas,camera}){
+        if(this.cameraBox.position.x<=0){
+          camera.position.x+=this.velocity.x;
+      }}
+
+      shouldPanDown({canvas,camera}){
+        if(this.cameraBox.position.y<=0){
+          camera.position.y+=this.velocity.y;
+      }}
+      shouldPanUp({canvas,camera}){
+        const cameraboxBottom=this.cameraBox.position.y+this.cameraBox.height;
+        const scaledCanvasHeight=canvas.height/1.29
+        if(cameraboxBottom>2880) return
+        if(cameraboxBottom>=scaledCanvasHeight){
+          camera.position.y-=this.velocity.y; 
+        }
+      }
+
+
     update() {
+      this.updateCameraBox();
+      // c.fillStyle = 'rgba(0,255,0,0.5)';
+      // c.fillRect(this.position.x, this.position.y, this.width, this.height);
       this.frameCount++;
+
+      // c.fillStyle = 'rgba(0,0,255,0.5)';
+      // c.fillRect(this.cameraBox.position.x, this.cameraBox.position.y, this.cameraBox.width, this.cameraBox.height);
       if (this.frameCount % this.frameInterval === 0) {
         this.frames++;
         if (this.frames > this.currentframeCount) {
@@ -84,6 +134,7 @@ class Player {
       }
   
       this.position.x += this.velocity.x;
+      
       this.checkForHorizontalCollisions();
      this.applyGravity();
      this.checkForVerticalCollisions();
@@ -91,7 +142,7 @@ class Player {
   
       if(this.velocity.y>0){
         this.isJumping=false;
-        this.isFalling=true;
+        this.isFalling=false;
       }else if(this.velocity.y===0){
         this.isFalling=false;
       }
@@ -137,13 +188,12 @@ class Player {
       else if (this.velocity.x !== 0) {
         this.direction = this.velocity.x < 0 ? 'left' : 'right';
         this.currentSprite = this.direction === 'left' ? this.sprites.run.left : this.sprites.run.right;
-       
         this.currentCropWidth = this.sprites.run.cropWidth;
         this.currentframeCount = this.sprites.run.frameCount;
         this.currentCropHeight = this.sprites.stand.cropHeight;
         
         this.width = 156/9.1;
-        this.height = 180/8.25;
+        this.height = 180/10;
       } else {
         this.currentSprite = this.direction === 'left' ? this.sprites.stand.left : this.sprites.stand.right;
         this.currentCropWidth = this.sprites.stand.cropWidth;
@@ -151,7 +201,7 @@ class Player {
         
         this.currentframeCount = this.sprites.stand.frameCount;
         this.width = 156/9.1;
-        this.height = 180/8.5;
+        this.height = 180/9;
   
       }
   
@@ -163,30 +213,31 @@ class Player {
   
       this.draw();
     }
-    checkForHorizontalCollisions(){
-      for(let i=0;i<this.collisionBlocks.length;i++){
+    checkForHorizontalCollisions() {
+      for (let i = 0; i < this.collisionBlocks.length; i++) {
           const collisionBlock = this.collisionBlocks[i];
-          if(collision({object1:this,object2:collisionBlock})){
-            if(this.velocity.x>0){
+          if (collision({ object1: this, object2: collisionBlock })) {
+              if (this.velocity.x > 0) {
+                  this.velocity.x = 0; 
+                  this.position.x = collisionBlock.position.x - this.width - 0.1; 
+              }
+  
               
-              
-              this.velocity.x=0;
-              this.position.x=collisionBlock.position.x-this.width-0.1;
-            }
-            if(this.velocity.x<0){
-              
-              this.velocity.x=0;
-              this.position.x=collisionBlock.position.x+collisionBlock.width+0.1;
-            }
+              if (this.velocity.x < 0) {
+                  this.velocity.x = 0; 
+                  this.position.x = collisionBlock.position.x + collisionBlock.width + 0.1; 
+              }
+          }
       }
-   }
-}
+  }
 
     applyGravity(){
+      
         this.position.y += this.velocity.y;
   
     
         this.velocity.y += gravity;
+
      }
      checkForVerticalCollisions(){
         for(let i=0;i<this.collisionBlocks.length;i++){
@@ -195,12 +246,13 @@ class Player {
               if(this.velocity.y>0){
                 
                 this.velocity.y=0;
-                this.position.y=collisionBlock.position.y-this.height-0.1;
+                this.position.y=collisionBlock.position.y-this.height-0.2;
+                
               }
               if(this.velocity.y<0){
                 
                 this.velocity.y=0;
-                this.position.y=collisionBlock.position.y+collisionBlock.height-0.1;
+                this.position.y=collisionBlock.position.y+collisionBlock.height+0.2;
               }
         }
      }

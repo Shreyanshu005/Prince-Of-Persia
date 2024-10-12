@@ -80,6 +80,12 @@ const player1 = new Player({
 
 });
 
+const camera={
+position:{
+  x:-1921,y:0
+}
+}
+
 function animate() {
 
   requestAnimationFrame(animate);
@@ -88,7 +94,7 @@ function animate() {
 
   c.scale(4.55, 4.25);
 
-  c.translate(-1921, 0);
+  c.translate(camera.position.x, 0);
  
 
 
@@ -99,12 +105,17 @@ function animate() {
     collisionBlock.update();
   });
   player1.update();
+  
+player1.shouldPanLeft({canvas,camera});
+player1.shouldPanRight({canvas,camera});
+player1.shouldPanDown({canvas,camera});
+player1.shouldPanUp({canvas,camera});
+
   c.restore();
 
 
 
-  console.log(player1.position.x);
-  console.log(player1.position.y);
+
 
   
 }
@@ -122,6 +133,8 @@ function keydown(e) {
     case 68:
       if (!player1.isAttacking)
         player1.velocity.x = 5/9.1;
+      player1.shouldPanLeft();
+      
 
 
       break;
