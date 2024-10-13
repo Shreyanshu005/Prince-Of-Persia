@@ -82,7 +82,7 @@ const player1 = new Player({
 
 const camera={
 position:{
-  x:-1921,y:0
+  x:-1921,y:60
 }
 }
 
@@ -94,7 +94,7 @@ function animate() {
 
   c.scale(4.55, 4.25);
 
-  c.translate(camera.position.x, 0);
+  c.translate(camera.position.x+50, camera.position.y-50);
  
 
 
@@ -133,7 +133,8 @@ function keydown(e) {
     case 68:
       if (!player1.isAttacking)
         player1.velocity.x = 5/9.1;
-      player1.shouldPanLeft();
+      
+
       
 
 
@@ -143,6 +144,7 @@ function keydown(e) {
         if (!player1.isJumping) {
           player1.velocity.y -= 25/8.25;
           player1.isJumping = true;
+       
         }
       break;
     case 81:
