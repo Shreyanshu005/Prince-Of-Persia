@@ -110,10 +110,10 @@ class Player {
         const cameraBoxBottom=this.cameraBox.position.y+this.cameraBox.height;
         const scaledCanvasHeight=canvas.height/12;
         
-        if(cameraBoxBottom>canvas.height) return
+        // if(cameraBoxBottom>scaledCanvasHeight) return
         
-        if(this.cameraBox.position.y+this.cameraBox.height>=scaledCanvasHeight){
-          console.log(this.velocity.y)
+        if(cameraBoxBottom>=scaledCanvasHeight){
+
       
           camera.position.y-=this.velocity.y/0.7;
         
@@ -158,7 +158,7 @@ class Player {
   
       if(this.velocity.y>0){
         this.isJumping=false;
-        this.isFalling=false;
+        this.isFalling=true;
       }else if(this.velocity.y===0){
         this.isFalling=false;
       }
@@ -201,6 +201,7 @@ class Player {
         this.currentCropWidth=this.sprites.death.cropWidth;
         this.width=254/14.1;
         this.currentframeCount=this.sprites.death.frameCount;
+
   
       }
   
@@ -243,8 +244,10 @@ class Player {
   
       this.draw();
     }
+    
     checkForHorizontalCollisions() {
       for (let i = 0; i < this.collisionBlocks.length; i++) {
+        
           const collisionBlock = this.collisionBlocks[i];
           if (collision({ object1: this, object2: collisionBlock })) {
               if (this.velocity.x > 0) {

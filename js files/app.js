@@ -16,7 +16,7 @@ attack1R.src = '../assets/Attack3L.png'
 const attack1L = new Image();
 attack1L.src = '../assets/Attack4.png'
 const footstep = new Audio();
-footstep.src = '../assets/footstep.wav';
+footstep.src = '../assets/footsteps1.mp3';
 const death = new Image();
 death.src = '../assets/death.png'
 const fall = new Image();
@@ -24,7 +24,9 @@ fall.src = '../assets/fall.png'
 const fallL = new Image();
 fallL.src = '../assets/fallL.png'
 const backG = new Image();
-backG.src = '../assets/background.png'
+backG.src = '../assets/background1.png'
+const backMusic=new Audio();
+backMusic.src='../assets/backmusic.mp3'
 
 const c = canvas.getContext('2d');
 canvas.width = innerWidth;
@@ -48,6 +50,8 @@ floorCollisions2D.forEach((row, y) => {
     };
   })
 })
+
+
 
 
 const gravity = 1/8.25;
@@ -120,7 +124,8 @@ player1.shouldPanUp({canvas,camera});
   
 }
 backG.onload = () => {
-
+backMusic.loop=true;
+backMusic.play();
   animate();
 };
 
@@ -129,11 +134,21 @@ function keydown(e) {
     case 65:
       if (!player1.isAttacking)
         player1.velocity.x = -5/9.1;
+      footstep.loop = true;
+      
+
+      footstep.play();
       break;
     case 68:
       if (!player1.isAttacking)
         player1.velocity.x = 5/9.1;
-      
+        if(!player1.isJumping){
+        
+      footstep.loop = true;
+    
+
+      footstep.play();
+        }
 
       
 
@@ -157,6 +172,7 @@ function keydown(e) {
       player1.isDead = true;
       break;
 
+ 
 
 
   }
@@ -165,8 +181,10 @@ function keydown(e) {
 function keyup(e) {
   switch (e.keyCode) {
     case 65:
+      footstep.pause();
     case 68:
       player1.velocity.x = 0;
+      footstep.pause();
       break;
     case 87:
 
