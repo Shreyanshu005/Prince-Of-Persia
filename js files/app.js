@@ -60,6 +60,7 @@ const gravity = 1/8.25;
 
 
 
+
 function createImg(imageSrc) {
   const image = new Image();
   image.src = imageSrc.src;
@@ -76,7 +77,7 @@ const background = new sprite1({
 );
 
 const player1 = new Player({
-  position: { x: 990, y:0 },
+  position: { x: 100, y:0 },
 
 
   collisionBlocks,
@@ -86,7 +87,7 @@ const player1 = new Player({
 
 const camera={
 position:{
-  x:-1921,y:60
+  x:-71,y:30
 }
 }
 
@@ -98,7 +99,7 @@ function animate() {
 
   c.scale(4.55, 4.25);
 
-  c.translate(camera.position.x+50, camera.position.y-50);
+  c.translate(camera.position.x-50, camera.position.y-50);
  
 
 
@@ -125,6 +126,7 @@ player1.shouldPanUp({canvas,camera});
 }
 backG.onload = () => {
 backMusic.loop=true;
+backMusic.volume=0.3;
 backMusic.play();
   animate();
 };
@@ -157,8 +159,10 @@ function keydown(e) {
     case 87:
       if (player1.velocity.y === 0)
         if (!player1.isJumping) {
-          player1.velocity.y -= 25/8.25;
+      
+          player1.velocity.y -=25/8.25;
           player1.isJumping = true;
+         
        
         }
       break;

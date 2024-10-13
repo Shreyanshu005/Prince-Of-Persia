@@ -16,8 +16,10 @@ class Player {
       this.attackFrames = 0;
       this.attackDuration = 20; 
       this.isDead=false;
+     
+     
       
-  
+      
   
       this.sprites = {
         stand: {
@@ -84,10 +86,11 @@ class Player {
       );
     }
     updateCameraBox(){ 
+      
       this.cameraBox={
         position:{
           x:this.position.x-60,
-          y:this.position.y-30 
+          y:this.position.y-30,
         },width:140,height:80
         
       }
@@ -105,18 +108,18 @@ class Player {
         if(this.cameraBox.position.x<=0){
           camera.position.x+=this.velocity.x/0.5;
       }}
+      
       shouldPanDown({canvas,camera}){
+        
         
         const cameraBoxBottom=this.cameraBox.position.y+this.cameraBox.height;
         const scaledCanvasHeight=canvas.height/12;
-        
-        // if(cameraBoxBottom>scaledCanvasHeight) return
+   
         
         if(cameraBoxBottom>=scaledCanvasHeight){
-
-      
-          camera.position.y-=this.velocity.y/0.7;
-        
+       
+          camera.position.y-=this.velocity.y/0.6;
+   
           
        
          
@@ -125,9 +128,13 @@ class Player {
     }
     
       shouldPanUp({canvas,camera}){
+      
+        
         if(this.cameraBox.position.y<=0){
       
-          camera.position.y+=this.velocity.y/2.1;
+
+          camera.position.y+=this.velocity.y/3
+        
       }}
 
 
@@ -152,6 +159,7 @@ class Player {
       this.position.x += this.velocity.x;
       
       this.checkForHorizontalCollisions();
+      
      this.applyGravity();
      this.checkForVerticalCollisions();
      
@@ -244,6 +252,7 @@ class Player {
   
       this.draw();
     }
+   
     
     checkForHorizontalCollisions() {
       for (let i = 0; i < this.collisionBlocks.length; i++) {
@@ -265,11 +274,16 @@ class Player {
   }
 
     applyGravity(){
+    
       this.position.y += this.velocity.y;
       this.velocity.y += gravity;
+ 
+      
    if (this.isStandingOnCollisionBlock()) {
-    this.velocity.y = 0;
+    this.velocity.y =0
+    
         } 
+  
      
  
       
