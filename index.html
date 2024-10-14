@@ -60,7 +60,7 @@
         a {
             opacity: 0;
             position: relative;
-            text-wrap: nowrap;
+           
             bottom: 150px;
             left: 40px;
             z-index: 6;
@@ -84,17 +84,14 @@
 </head>
 
 <body>
-    
     <audio id="background-music" src="./assets/back.mp3" loop></audio>
-
     <div id="background">
         <img src="./assets/FePLNBnWAAMRbur.jpeg" alt="">
     </div>
     <div class="text">
         <p id="changing-text">Presented by Abhishek and Shreyanshu</p>
-
         <a href="./Html files/game.html" id="start-button">
-            <button>Click Here</buttond>
+            <button>Click Here</button>
         </a>
     </div>
     <script>
@@ -107,12 +104,11 @@
             background.style.opacity = 1;
 
             background.addEventListener('transitionend', () => {
-                if (window.getComputedStyle(background).opacity ==1) {
+                if (window.getComputedStyle(background).opacity == 1) {
                     backgroundMusic.play();
                     fadeInText();
                 }
             });
-
 
             function fadeInText() {
                 changingText.style.opacity = 0;
@@ -120,24 +116,19 @@
                 setTimeout(() => {
                     changingText.style.opacity = 1;
                     setTimeout(fadeOutText, 2000);
-
                 }, 0);
             }
 
             function fadeOutText() {
                 changingText.style.opacity = 0;
-
-                setTimeout(() => {
-                    fadeInButton();
-                }, 2000);
+                setTimeout(fadeInButton, 2000);
             }
+
             function fadeInButton() {
                 startButton.style.opacity = 1;
                 startButton.style.pointerEvents = 'auto';
             }
-
         });
     </script>
 </body>
-
 </html>

@@ -257,7 +257,14 @@ class Player {
     checkForHorizontalCollisions() {
       for (let i = 0; i < this.collisionBlocks.length; i++) {
         
+        
           const collisionBlock = this.collisionBlocks[i];
+          if (collisionBlock.position.x === 256 && collisionBlock.position.y === 96) {
+            if(collision({object1:this,object2:collisionBlock})){
+            console.log('collision');
+             }}
+
+      
           if (collision({ object1: this, object2: collisionBlock })) {
               if (this.velocity.x > 0) {
                   this.velocity.x = 0; 
@@ -292,6 +299,13 @@ class Player {
      checkForVerticalCollisions(){
         for(let i=0;i<this.collisionBlocks.length;i++){
             const collisionBlock = this.collisionBlocks[i];
+            if (collisionBlock.position.x === 256 && collisionBlock.position.y === 96) {
+              if(collision({object1:this,object2:collisionBlock})){
+                console.log('collision');
+               }}
+            if(collisionBlock===55){
+              this.isDead=true;
+            }
             if(collision({object1:this,object2:collisionBlock})){
               if(this.velocity.y>0){
                 
@@ -324,7 +338,6 @@ class Player {
     return false;
 }
   
-  
-
 }
-  
+
+
