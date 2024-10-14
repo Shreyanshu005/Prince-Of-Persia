@@ -76,7 +76,7 @@ class Player {
           y:this.position.y 
         },width:200,height:80
         
-      }
+      } 
     }
   
     draw() {
@@ -115,39 +115,46 @@ class Player {
           camera.position.x+=this.velocity.x/0.5;
       }}
       
-      shouldPanDown({canvas,camera}){
-        
-        
-        
-        const cameraBoxBottom=this.cameraBox.position.y+this.cameraBox.height;
-        const scaledCanvasHeight=canvas.height/12;
+      shouldPanDown({canvas, camera}){
+        const cameraBoxBottom = this.cameraBox.position.y + this.cameraBox.height;
+        const scaledCanvasHeight = canvas.height / 12;
    
-     if(cameraBoxBottom>=578/2.2) return
-        if(cameraBoxBottom>=scaledCanvasHeight){
-       
-       
-          camera.position.y-=(this.velocity.y/0.6);
-          
-          
-  
-          
-      }
+        if (cameraBoxBottom >= 578 / 2.2) return;
+   
+        if (cameraBoxBottom >= scaledCanvasHeight) {
+          if(player1.position.y>180){
+            camera.position.y = -(this.cameraBox.position.y -cameraOffsetY+155);
+          }else{
+            camera.position.y = -(this.cameraBox.position.y -cameraOffsetY);}
+        }
     }
     
-      shouldPanUp({canvas,camera}){
-        const cameraBoxTop=this.cameraBox.position.y
-        if(this.cameraBox.position.y<=0){
-   
+    shouldPanUp({canvas, camera}){
+        const cameraBoxTop = this.cameraBox.position.y;
+    
+        if (cameraBoxTop <= 0) {
+          
+            camera.position.y = -(this.cameraBox.position.y -cameraOffsetY);
+        }
+    }
 
-          camera.position.y+=this.velocity.y/15
- 
-        
-      }}
+    
 
 
 
     update() {
+      
+      
+  
+if (this.position.y < 0) {
+  this.position.y = 0;
+  this.velocity.y = 0;
+  }
+  if(this.position.x<50){
+    this.position.x=50;
     
+  }
+  
    
       
       this.updateCameraBox();
@@ -299,8 +306,7 @@ class Player {
     
       this.position.y += this.velocity.y;
       this.velocity.y += gravity;
-      console.log(this.position.x);
-      console.log(this.position.y); 
+      
      
  
       
@@ -350,7 +356,10 @@ class Player {
     }
     return false;
 }
+
   
 }
+const cameraOffsetY = 10;
+
 
 

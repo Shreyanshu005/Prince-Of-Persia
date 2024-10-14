@@ -42,7 +42,7 @@ for (let i = 0; i < floorCollisions.length; i += 90) {
   floorCollisions2D.push(floorCollisions.slice(i, i + 90));
 }
 const collisionBlocks = [];
-const spikesBlocks = []
+
 floorCollisions2D.forEach((row, y) => {
   row.forEach((symbol, x) => {
     if (symbol === 1621) {
@@ -50,11 +50,7 @@ floorCollisions2D.forEach((row, y) => {
         position: { x: x * 16, y: y * 16 }
       }))
     }
-    if(symbol===55){
-      spikesBlocks.push(new spikeBlock({
-        position:{x:x*16,y:y*16}
-      }))
-    };
+   
   })
 })
 
