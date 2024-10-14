@@ -4,6 +4,7 @@ class Player {
       this.position = position;
       this.velocity = { x: 0, y: 0 };
       this.collisionBlocks = collisionBlocks;
+      
       this.width = 156/13;
         this.height = 180/13;
       this.frames = 0;
@@ -14,7 +15,9 @@ class Player {
       this.direction = 'right';
       this.isAttacking = false;
       this.attackFrames = 0;
+      this.deadFrames = 0;
       this.attackDuration = 20; 
+      this.deadDuration = 15; 
       this.isDead=false;
      
      
@@ -98,13 +101,16 @@ class Player {
   
       shouldPanLeft({canvas,camera}){
         const cameraboxRigthSide=this.cameraBox.position.x+this.cameraBox.width;
+       
         const scaledCanvasWidth=canvas.width/8.55
-        if(cameraboxRigthSide>2880) return
+        if(cameraboxRigthSide>=2880) return
         if(cameraboxRigthSide>=scaledCanvasWidth){
           camera.position.x-=this.velocity.x/0.5; 
         }
       }
       shouldPanRight({canvas,camera}){
+        const cameraboxLeftSide=this.cameraBox.position.x;
+        if(cameraboxLeftSide<0) return
         if(this.cameraBox.position.x<=0){
           camera.position.x+=this.velocity.x/0.5;
       }}
@@ -112,43 +118,43 @@ class Player {
       shouldPanDown({canvas,camera}){
         
         
+        
         const cameraBoxBottom=this.cameraBox.position.y+this.cameraBox.height;
         const scaledCanvasHeight=canvas.height/12;
    
-        
+     if(cameraBoxBottom>=578/2.2) return
         if(cameraBoxBottom>=scaledCanvasHeight){
        
-          camera.position.y-=this.velocity.y/0.6;
-   
+       
+          camera.position.y-=(this.velocity.y/0.6);
           
-       
-         
-       
+          
+  
+          
       }
     }
     
       shouldPanUp({canvas,camera}){
-      
-        
+        const cameraBoxTop=this.cameraBox.position.y
         if(this.cameraBox.position.y<=0){
-      
+   
 
-          camera.position.y+=this.velocity.y/3
+          camera.position.y+=this.velocity.y/15
+ 
         
       }}
 
 
 
     update() {
+    
    
       
       this.updateCameraBox();
-      // c.fillStyle = 'rgba(0,255,0,0.5)';
-      // c.fillRect(this.position.x, this.position.y, this.width, this.height);
+      
       this.frameCount++;
 
-      // c.fillStyle = 'rgba(0,0,255,0.5)';
-      // c.fillRect(this.cameraBox.position.x, this.cameraBox.position.y, this.cameraBox.width, this.cameraBox.height);
+      
       if (this.frameCount % this.frameInterval === 0) {
         this.frames++;
         if (this.frames > this.currentframeCount) {
@@ -189,7 +195,7 @@ class Player {
       }
   
       else if (this.isAttacking) {
-        console.log(this.attackFrames);
+     
         this.attackFrames++;
         if (this.attackFrames > this.attackDuration) {
           
@@ -205,10 +211,16 @@ class Player {
         this.height = 404/28.25;
       } 
       else if(this.isDead){
+        this.deadFrames++;
+        if(this.deadFrames>this.deadDuration){
+          this.isDead=false;
+          this.deadFrames=0;
+        }
         this.currentSprite=this.sprites.death.right;
         this.currentCropWidth=this.sprites.death.cropWidth;
         this.width=254/14.1;
         this.currentframeCount=this.sprites.death.frameCount;
+       
 
   
       }
@@ -244,6 +256,10 @@ class Player {
         this.height = 180/13;
   
       
+        if(this.position.x>=237&&this.position.x<238&&this.position.y===81.95384615384616){
+          this.isDead=true;
+        }
+        this.isdead=false;
   
   
       
@@ -251,7 +267,9 @@ class Player {
   
   
       this.draw();
+      
     }
+    
    
     
     checkForHorizontalCollisions() {
@@ -259,10 +277,7 @@ class Player {
         
         
           const collisionBlock = this.collisionBlocks[i];
-          if (collisionBlock.position.x === 256 && collisionBlock.position.y === 96) {
-            if(collision({object1:this,object2:collisionBlock})){
-            console.log('collision');
-             }}
+        
 
       
           if (collision({ object1: this, object2: collisionBlock })) {
@@ -284,6 +299,9 @@ class Player {
     
       this.position.y += this.velocity.y;
       this.velocity.y += gravity;
+      console.log(this.position.x);
+      console.log(this.position.y); 
+     
  
       
    if (this.isStandingOnCollisionBlock()) {
@@ -299,13 +317,8 @@ class Player {
      checkForVerticalCollisions(){
         for(let i=0;i<this.collisionBlocks.length;i++){
             const collisionBlock = this.collisionBlocks[i];
-            if (collisionBlock.position.x === 256 && collisionBlock.position.y === 96) {
-              if(collision({object1:this,object2:collisionBlock})){
-                console.log('collision');
-               }}
-            if(collisionBlock===55){
-              this.isDead=true;
-            }
+           
+            
             if(collision({object1:this,object2:collisionBlock})){
               if(this.velocity.y>0){
                 

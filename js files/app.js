@@ -24,7 +24,7 @@ fall.src = '../assets/fall.png'
 const fallL = new Image();
 fallL.src = '../assets/fallL.png'
 const backG = new Image();
-backG.src = '../assets/background1.png'
+backG.src = '../assets/background2.png'
 const backMusic=new Audio();
 backMusic.src='../assets/backmusic.mp3'
 
@@ -37,15 +37,22 @@ const scaledCanvas = {
 }
 
 const floorCollisions2D = []
+
 for (let i = 0; i < floorCollisions.length; i += 90) {
   floorCollisions2D.push(floorCollisions.slice(i, i + 90));
 }
 const collisionBlocks = [];
+const spikesBlocks = []
 floorCollisions2D.forEach((row, y) => {
   row.forEach((symbol, x) => {
     if (symbol === 1621) {
       collisionBlocks.push(new collisionBlock({
         position: { x: x * 16, y: y * 16 }
+      }))
+    }
+    if(symbol===55){
+      spikesBlocks.push(new spikeBlock({
+        position:{x:x*16,y:y*16}
       }))
     };
   })
@@ -90,6 +97,9 @@ position:{
   x:-71,y:30
 }
 }
+function restart(){
+  window.location.href = 'game.html';
+}
 
 function animate() {
 
@@ -118,6 +128,10 @@ player1.shouldPanUp({canvas,camera});
 
   c.restore();
 
+  if(player1.isDead){
+    restart();
+  }
+
 
 
 
@@ -125,6 +139,7 @@ player1.shouldPanUp({canvas,camera});
   
 }
 backG.onload = () => {
+
 backMusic.loop=true;
 backMusic.volume=0.3;
 backMusic.play();
@@ -171,12 +186,6 @@ function keydown(e) {
         (player1.velocity.x === 0)
         player1.isAttacking = true;
       break;
-
-    case 67:
-      player1.isDead = true;
-      break;
-
- 
 
 
   }
