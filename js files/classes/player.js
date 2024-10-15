@@ -88,6 +88,9 @@ class Player {
         this.width, this.height
       );
     }
+
+ 
+
     updateCameraBox(){ 
       
       this.cameraBox={
@@ -143,7 +146,12 @@ class Player {
 
 
     update() {
+      console.log(player1.position.x,player1.position.y);
       
+      if (this.velocity.y === 0 && this.isRunningJump) {
+        this.velocity.x /= 2.2;
+        this.isRunningJump = false; 
+      }
       
   
 if (this.position.y < 0) {
@@ -263,11 +271,17 @@ if (this.position.y < 0) {
         this.height = 180/13;
   
       
-        if(this.position.x>=237&&this.position.x<238&&this.position.y===81.95384615384616){
+        if(this.position.x>=237&&this.position.x<250&&this.position.y===81.95384615384616){
           this.isDead=true;
         }
         this.isdead=false;
-  
+        if(this.position.x>=1188)
+          {alert("You Win");
+            this.position.x=0;
+          }
+        if (camera.position.x > 1100) {
+          camera.position.x = 1100;
+        }
   
       
       

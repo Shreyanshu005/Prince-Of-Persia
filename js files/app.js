@@ -27,6 +27,9 @@ const backG = new Image();
 backG.src = '../assets/background2.png'
 const backMusic=new Audio();
 backMusic.src='../assets/backmusic.mp3'
+const diamond = new Image(); 
+diamond.src = '../assets/diamond.png'
+
 
 const c = canvas.getContext('2d');
 canvas.width = innerWidth;
@@ -61,9 +64,6 @@ const gravity = 1/8.25;
 
 
 
-
-
-
 function createImg(imageSrc) {
   const image = new Image();
   image.src = imageSrc.src;
@@ -78,6 +78,8 @@ const background = new sprite1({
   imageSrc: backG.src
 }
 );
+
+
 
 const player1 = new Player({
   position: { x: 100, y:0 },
@@ -94,7 +96,20 @@ position:{
 }
 }
 function restart(){
-  window.location.href = 'game.html';
+
+  camera.position.x=-71;
+  camera.position.y=30;
+  player1.position = { x: 100, y: 0 }; 
+  player1.velocity = { x: 0, y: 0 };
+  player1.isJumping = false;
+  player1.isFalling = false;
+  player1.isAttacking = false;
+  player1.isRunningJump = false;
+  player1.isDead = false;
+  player1.frames = 0;
+  player1.frameCount = 0;
+
+ 
 }
 
 function animate() {
@@ -124,23 +139,30 @@ player1.shouldPanUp({canvas,camera});
 
   c.restore();
 
+
+
   if(player1.isDead){
     restart();
   }
 
 
-
-
-
   
 }
+
+
 backG.onload = () => {
 
 backMusic.loop=true;
 backMusic.volume=0.3;
 backMusic.play();
+
+
+
+
   animate();
 };
+
+
 
 function keydown(e) {
   switch (e.keyCode) {
@@ -173,6 +195,11 @@ function keydown(e) {
       
           player1.velocity.y -=25/8.25;
           player1.isJumping = true;
+          if (player1.velocity.x !== 0) {
+            
+            player1.velocity.x *= 2.2; 
+            player1.isRunningJump = true;
+          }
          
        
         }
@@ -212,3 +239,13 @@ function keyup(e) {
 
 addEventListener('keydown', keydown);
 addEventListener('keyup', keyup);
+
+
+
+
+
+
+
+
+
+
